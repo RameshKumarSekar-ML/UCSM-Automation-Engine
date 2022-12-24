@@ -1,4 +1,4 @@
-# UCSM Dev Tools
+## UCSM Dev Tools
 >A Versatile Automation Script that will help you in all the way it can...
 
 ## Pre-Requisite
@@ -10,7 +10,6 @@ In order to utilise the script seemlessly , Make sure to set the Passwordless SS
          Hurrah !! You're Done :)
 
 ## Usage
-
 ### **TechSupport** :
 #
 
@@ -32,8 +31,6 @@ You'll be asked to enter the Absolute Path of the Generated Binary (.so) <br><br
 
 Note : You can always Revert to the previous shared Library (.So) binary, If you find something Fishy on a setup.
 
-
-
 ### **Tailing Live Logs**
 #
 Capture's the Live AG's Logs right there from a Build Machine .<br><br>Note : Logs will still be Captured Even If the File get to Rotate. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Script works in a Interactive way as well If the AG is Not specified
@@ -47,14 +44,12 @@ Capture's the Live AG's Logs right there from a Build Machine .<br><br>Note : Lo
      /nws/rameseka/scripts/Auto.sh tail dme -- Tail only DME Logs
 
      /nws/rameseka/scripts/Auto.sh tail all -- Tail All AG Logs
-<br>
 
 ### **Moniter the Tailing Logs**
 #
 Moniter the Tailing Process to Ensure the Logs are being Captured
 
     /nws/rameseka/scripts/Auto.sh  [ status | STATUS ]
-
 ### **Stop the Tailing Logs**
 #
 Stop capturing the Tailing Logs and Zip the Files bring it back to the current directory of the Build Machine 
