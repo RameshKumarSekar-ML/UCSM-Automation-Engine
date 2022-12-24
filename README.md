@@ -2,6 +2,9 @@
 ### _A Collection of Automation script's to make Dev's life Easier_
 
 TLDR;
+<br>
+### **Desclaimer :** <br>
+<b>You don't need to clone this code and Invoke from your Path ,Already code has been Deployed ,So You can utilise the script as Instructed.</b>
 
 A Handful of tools have been developed to assist the UCSM Developer to increase the pace of development as well as Magnify Developer's Productivity.
 
