@@ -82,7 +82,7 @@ SSH="sshpass -p $PASS ssh -t $ID@$BLITZ6"
 SCRIPT="bash /users/rameseka/RPC_Scripts/BM_RPC.sh"
 
 ###########################################################################
-# Establish a SSH Connection Make an BLITZ RPC Call.                      #
+# Establish a SSH Connection Make an BM RPC Call.                      #
 #                                                                         #
 # Arguments:                                                              #
 #   CTRL_ARG  ,BUILD_MACHINE_IP ,BUILD_MACHINE_PASS , BM_DESTN_PATH, IP   #
@@ -169,9 +169,9 @@ function REVERT()
     fi
 }
 
-########################################################################################
-#      Fetch the Techsupport directly from the setup to the current working Directory  # 
-########################################################################################
+################################################################################################
+#    Fetch the Techsupport directly from the setup & Extract to the current working Directory  # 
+################################################################################################
 function TS()
 {
     PROCESSING

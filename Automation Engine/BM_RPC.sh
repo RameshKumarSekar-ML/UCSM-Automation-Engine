@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##################################################################################################
+#      BM_RPC.sh  : Dependency Script that will Remotely Invoke Instruction's                     #
+#                   This script couldn't be Executed Autonomously.                                #
+#                                                                                                 #
+#           File : BM_RPC.sh                                                                      #
+#       Engineer : rameseka                                                                       #
+#                                                                                                 #
+###################################################################################################
+
 ID="$USER"
 CTRL_ARG=$1
 BUID_MACHINE=$2
@@ -36,6 +45,16 @@ function ERROR(){
         exit 0
     fi
 }
+
+###########################################################################
+# Establish a SSH Connection Make an BLITZ RPC Call.                      #
+#                                                                         #
+# Arguments:                                                              #
+#   CTRL_ARG  ,BUILD_MACHINE_IP ,BUILD_MACHINE_PASS , BM_DESTN_PATH, IP   #
+#                                                                         #
+#Returns:                                                                 #
+#       Success / Failure Return Value                                    #
+###########################################################################
 
 function SSH_CONNECT()
 {

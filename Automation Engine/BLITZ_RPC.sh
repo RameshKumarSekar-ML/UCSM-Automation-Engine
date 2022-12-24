@@ -104,6 +104,9 @@ function COPY()
 
 }
 
+###########################################################################
+# Revert to the Previoius Binary If It's Found in Backup_Bin Directory    #                                                                   #                                                              #
+###########################################################################
 function REVERT(){
     #Check if Backup_Bin Exists
     if [ -d "/var/sysmgr/sam_logs/Backp_Bins/" ];then
@@ -131,6 +134,9 @@ function CLEAN()
     fi
 }
 
+###########################################################################
+# Collect the Techsupport Directly from Setup & Copy back to Build Machine# 
+###########################################################################
 function TS(){
     #Purging the Techsupport Bundle and it's ts Log File
     CLEAN_TS()
@@ -243,7 +249,7 @@ function STOP()
     fi
 }
 
-#Driver Code 
+#Main Driver Code 
 if [[ "$CTRL_ARG" == "COPY" ||  $CTRL_ARG == "copy"  ||  $CTRL_ARG == "REPLACE" ||  $CTRL_ARG == "replace" ]]
 then
     ID=$2
