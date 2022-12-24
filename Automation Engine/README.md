@@ -2,14 +2,26 @@
 >A Versatile Automation Script that will help you in all the way it can...
 
 ## Pre-Requisite
-In order to utilise the script seemlessly , Make sure to set the Passwordless SSH between Build Machine and Blitz Server.
+In order to utilise the script seemlessly , Please do the following One_Time Operation 
+<br>     
+- Make sure to set the Passwordless SSH between Build Machine and Blitz Server.
+- Export the Required Enviornment Variable's.
+
+### **Passwordless-SSH**
         
          1.ssh-keygen -t rsa [Just Enter for All Propmt's ]
          2.ssh-copy-id <CEC ID>@savbu-blitz6.cisco.com
 
          Hurrah !! You're Done :)
+### **Environment Variable's ( Optional )**
+Setting the Following Environment varaible will prevent the Setup IP & CEC Password to be entered every time you invoke the script. <br>
 
-## Usage
+Note : **'UCSIP'** Variable can be changed whenever it is required. 
+
+        export UCSIP="Setup IP"
+        export CEC="CEC Passwd"
+
+## Usage :
 ### **TechSupport** :
 #
 
