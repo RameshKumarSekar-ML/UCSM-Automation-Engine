@@ -237,13 +237,16 @@ function STOP()
 
 }
 
-###########################################################################
-# Sign the UCSM Private Image .                                           #
-#                                                                         #
-# Arguments:                                                              #
-#   CTRL_ARG  ,PI Name ,PI Description(Optional)                          #
-#                                                                         #
-###########################################################################
+###############################################################################################
+#                                                                                             #
+# Created by : rameseka , khallike                                                            #
+#                                                                                             #
+# Descr : Wrapper Script for Signing the Private Image                                        #
+#                                                                                             #
+# Arguments:                                                                                  #
+#   CTRL_ARG  ,PI Name ,PI Description(Optional)                                              #
+#                                                                                             #
+###############################################################################################
 
 function SIGN()
 {
