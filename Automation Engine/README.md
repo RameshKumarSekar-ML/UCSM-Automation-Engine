@@ -29,6 +29,13 @@ Note : **'UCSIP'** Variable can be changed whenever it is required.
 
 Create a Techsupport on a Support , once TechSupport Bundle is available will copy back and Extract the bundle to your current working directory.
 
+### **Signing the Image** :
+#
+
+    /nws/rameseka/scripts/Auto.sh [ sign | SIGN ] [ UCSM Image Name ] [ Description about Image ](Optional)
+
+Transfer the Image from Build Machine to Blitz to Sign the Image and Sends an Automated E-mail with Appropriate details all in a One Line command.
+
 ### **Library Replacement** :
 #
 To Replace the Library in a System

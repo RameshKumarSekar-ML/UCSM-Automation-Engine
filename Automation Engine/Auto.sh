@@ -1,15 +1,15 @@
 #!/bin/bash 
 
-##################################################################################################
-#      Auto.sh  : Script to Manage Entire Development Automation Task's                           #
-#                 This script has a couple of Dependencies relied upon some RPC Call's.            #
-#                                                                                                 #
-#           File : Auto.sh                                                                        #
-#       Engineer : rameseka                                                                       #
-#          Usage : /nws/rameseka/scripts/Auto.sh <Flags>                                          #
-# Supported Flags:  [ techsupport | tail <AG Name>(Optional) | stop | replace | revert | cimc ]   #
-#                                                                                                 #
-###################################################################################################
+#########################################################################################################
+#      Auto.sh  : Script to Manage Entire Development Automation Task's                                  #
+#                 This script has a couple of Dependencies relied upon some RPC Call's.                  #
+#                                                                                                        #
+#           File : Auto.sh                                                                               #
+#       Engineer : rameseka                                                                              #
+#          Usage : /nws/rameseka/scripts/Auto.sh <Flags>                                                 #
+# Supported Flags:  [ techsupport | | sign | tail <AG Name>(Optional) | stop | replace | revert | cimc ] #
+#                                                                                                        #
+##########################################################################################################
 
 
 ID="$USER"
@@ -22,6 +22,7 @@ CLEAR="clear 2> /dev/null"
 
 KEYGEN="ssh-keygen -R"
 Retry_Exhausted=2
+EXIT_FAIL="exit 1"
 
 function Welcome()
 {
@@ -41,11 +42,11 @@ function ERROR(){
     if [ "${Ret_Value}" -eq ${Retry_Exhausted} ]
     then
         printf "\nERROR : Connection Retries to Blitz Exhausted.\n"
-        exit 1
+        ${EXIT_FAIL}
     else
         printf "\nSomething went Wrong."
         printf "\nPlease Check your Setup IP/CEC Password & Try Again.\n\n"     #TBD : Give an Retry Option  --DONE
-        exit 1
+        ${EXIT_FAIL}
     fi
 }
 
@@ -60,7 +61,7 @@ then
     printf "\nInvalid Argument's.\n"
     printf "\nPlease Provide the Proper Argument's.\n\n"
     MAN
-    exit 1
+    ${EXIT_FAIL}
 else
     Welcome
 fi
@@ -68,7 +69,7 @@ fi
 #TBD : Get the Pass from Either CLI or Env Variable 
 if [ -z "${CEC}" ] && [ -z "${UCSIP}" ]
 then
-    if [[ $CTRL_ARG != "MAN" && $CTRL_ARG != "man" ]] && [[ $CTRL_ARG != "--help" && $CTRL_ARG != "--h" ]] && [[ $CTRL_ARG != "CIMC" && $CTRL_ARG != "cimc" ]] 
+    if [[ $CTRL_ARG != "MAN" && $CTRL_ARG != "man" ]] && [[ $CTRL_ARG != "--help" && $CTRL_ARG != "--h" ]] && [[ $CTRL_ARG != "CIMC" && $CTRL_ARG != "cimc" ]] && [[ $CTRL_ARG != "SIGN" && $CTRL_ARG != "sign" ]]
     then 
         read -rep $'\n\nPlease Enter the Setup IP : ' IP
         read -serp $'\nPlease Enter the CEC Password : ' PASS
@@ -236,6 +237,46 @@ function STOP()
 
 }
 
+###########################################################################
+# Sign the UCSM Private Image .                                           #
+#                                                                         #
+# Arguments:                                                              #
+#   CTRL_ARG  ,PI Name ,PI Description(Optional)                          #
+#                                                                         #
+###########################################################################
+
+function SIGN()
+{
+    function SIGN_MAN()
+    {
+        printf "\n\t -------------------------------------------------------------------------\n"
+        printf "[ Instruction's] : \n\n\tPlease Get in to sam/src/.debug/images/ Directory and Execute the Script.]\n"
+        printf "\n[ PASSWORDLESS SSH ] : \n\n\t 1.ssh-keygen -t rsa [Just Enter for All Propmt's ]  \n\t 2.ssh-copy-id %s@savbu-blitz6.cisco.com \n\n\t Hurrah !! You're Done :) \n" "$ID"
+        printf "\n[ Usage ] : \n\n\tSign the Image [ bash /nws/rameseka/Sign.sh [IMAGE NAME] ]\n"
+        printf "\n\t -------------------------------------------------------------------------\n"
+        ${EXIT_FAIL}
+    }
+
+    if [ $# -eq 1 ]
+    then
+        ${CLEAR}
+        printf "\n\t\tPlease Provide the Name of the UCSM IMAGE to be Signed!!\n"
+        SIGN_MAN
+    fi
+
+    local PI=$2
+    CURRENT_PATH+='/'$2
+    local DESCR="$3"
+    # PI=$(python /nws/rameseka/scripts/Build_Tools/Parser.py UCSM_PI "$CURRENT_PATH")
+    printf "\nUCSM IMAGE : %s \n" "$PI"
+
+    if ! ssh -t "$ID"@$BLITZ6 "${SCRIPT}" "${CTRL_ARG}" "$CURRENT_PATH" "$PI" "${DESCR}" 2>/dev/null
+    then
+        printf "\nSorry...Something went wrong Either while connecting to Blitz Server / Signing might have Failed.\n\n"
+        ${EXIT_FAIL}
+    fi
+}
+
 ####################################################
 #      Generate the CIMC Challenge String          #
 ####################################################
@@ -246,7 +287,7 @@ function CIMC()
     C2=$2
     ID=""
     PASS=''
-    if ! sshpass -p "${PASS}" ssh -t "${ID}"@${BLITZ6} "bash /users/rameseka/RPC_Scripts/BM_RPC.sh ${CTRL_ARG} ${C1} ${C2}" 2>/dev/null
+    if ! sshpass -p "${PASS}" ssh -t "${ID}"@${BLITZ6} "${SCRIPT} ${CTRL_ARG} ${C1} ${C2}" 2>/dev/null
     then
         ERROR
     fi
@@ -278,6 +319,9 @@ case $CTRL_ARG in
                     ;;
     "STATUS" | "status" ) 
                     STATUS 
+                    ;;
+    "SIGN" | "sign" )
+                    SIGN "$@"
                     ;;
     "CIMC" | "cimc" ) 
                     CIMC "$2" "$3"

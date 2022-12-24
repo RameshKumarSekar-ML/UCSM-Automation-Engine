@@ -29,6 +29,7 @@ CLEAR="clear 2> /dev/null"
 
 SSH="sshpass -p $ADMINBACKUP_PASSWD ssh -t $ADMINBACKUP@$IP"
 SCRIPT="/users/rameseka/RPC_Scripts/BLITZ_RPC.sh"
+EXIT_FAIL="exit 1"
 
 function ERROR(){
     ${CLEAR}
@@ -165,6 +166,50 @@ function STATUS()
     fi
 }
 
+###########################################################################
+# Sign the UCSM Private Image .                                           #
+#                                                                         #
+# Arguments:                                                              #
+#   CTRL_ARG  ,Image PATH ,PI Name ,PI Description(Optional)              #
+#                                                                         #
+#Returns:                                                                 #
+#       Sign's the Image & Send out an E-Mail with Required Details       #
+###########################################################################
+
+function SIGN()
+{
+        local IMG_PATH=$2
+        local PI=$3
+        local DESCR=$4
+        local SAVBU="savbu-blitz6.cisco.com"
+        local HOST_IP
+        HOST_IP=$(hostname -i)
+        local SIGNED_IMG_PATH="/auto/wssjc-nuo11/${ID}/temp/sam/src/.debug/images/"
+
+        printf  "\nHang on...Copying Private Image to Blitz\n\n"
+
+        if scp "$ID"@ucs-build03.cisco.com:"${IMG_PATH}" /auto/wssjc-nuo11/"$ID"/temp/sam/src/.debug/images/
+        then
+            printf "\nCopied the Image\n"
+        else
+            printf "\n ERROR : Something went wrong while copying the PI\n\n"
+            printf  "\n Hi %s , \n\n Something went wrong while copying the PI from Build Machine to Blitz Server. \n Kindly Please Check and Re-Trigger the Sign . \n\n Thanks " "$ID"  | mailx -s "RE: Failed to Sign the Image" "$ID"@cisco.com
+            ${EXIT_FAIL}
+        fi
+
+        printf "\nSigning the Image ....Please Wait\n\n"
+
+        if /auto/wssjc-nuo11/"$ID"/temp/sign4gfiimage.sh -image_file /auto/wssjc-nuo11/"$ID"/temp/sam/src/.debug/images/"${PI}"
+        then
+            printf "\nSIGNED THE IMAGE SUCCESSFULLY\n\n"
+            printf  "\n Hi %s , \n\nSigned the Image [ %s ] Successfully. \n\nPlease Find the Required Details Below \n\n IP : %s , \n\n IMAGE NAME : %s, \n\n PATH : %s ,\n\n Description : %s , \n\nThank You \nHappy Signing:) \n  " "$ID" "${PI}" "${HOST_IP}" "${PI}" "${SIGNED_IMG_PATH}" "${DESCR}"  | mailx -s "RE: Image Signing Succeeded :) " "$ID"@cisco.com
+        else
+            printf "\nERROR : Something Went Wrong While Signing the PI\n\n"
+            printf  "\n Hi %s , \n\n Something Went Wrong While Signing the PI [ %s ] in Blitz Server [ %s ] . \n Kindly Please have a Look. \n\n Thanks " "$ID" "${PI}" "$SAVBU" | mailx -s "RE: Failed to Sign the Image" "$ID"@cisco.com
+            ${EXIT_FAIL}
+        fi
+}
+
 function CIMC()
 {
     #Handle Challenge String Missing Case 
@@ -192,6 +237,9 @@ case $CTRL_ARG in
                     ;;
     "STATUS" | "status" ) 
                     STATUS 
+                    ;;
+    "SIGN" | "sign" )
+                    SIGN "$@"
                     ;;
     "CIMC" | "cimc" ) 
                     CIMC "$C1" "$C2"
