@@ -196,13 +196,14 @@ function SIGN()
             printf  "\n Hi %s , \n\n Something went wrong while copying the PI from Build Machine to Blitz Server. \n Kindly Please Check and Re-Trigger the Sign . \n\n Thanks " "$ID"  | mailx -s "RE: Failed to Sign the Image" "$ID"@cisco.com
             ${EXIT_FAIL}
         fi
-
+        
+        ${CLEAR}
         printf "\nSigning the Image ....Please Wait\n\n"
 
         if /auto/wssjc-nuo11/"$ID"/temp/sign4gfiimage.sh -image_file /auto/wssjc-nuo11/"$ID"/temp/sam/src/.debug/images/"${PI}"
         then
             printf "\nSIGNED THE IMAGE SUCCESSFULLY\n\n"
-            printf  "\n Hi %s , \n\nSigned the Image [ %s ] Successfully. \n\nPlease Find the Required Details Below \n\n IP : %s , \n\n IMAGE NAME : %s, \n\n PATH : %s ,\n\n Description : %s , \n\nThank You \nHappy Signing:) \n  " "$ID" "${PI}" "${HOST_IP}" "${PI}" "${SIGNED_IMG_PATH}" "${DESCR}"  | mailx -s "RE: Image Signing Succeeded :) " "$ID"@cisco.com
+            printf  "\n Hello %s , \n\nSigned the Image [ %s ] Successfully. \n\nPlease Find the Required Details Below \n\n IP : %s , \n\n IMAGE NAME : %s, \n\n PATH : %s ,\n\n Description : %s , \n\nThank You \nHappy Signing:) \n  " "$ID" "${PI}" "${HOST_IP}" "${PI}" "${SIGNED_IMG_PATH}" "${DESCR}"  | mailx -s "RE: Image Signing Succeeded :) " "$ID"@cisco.com
         else
             printf "\nERROR : Something Went Wrong While Signing the PI\n\n"
             printf  "\n Hi %s , \n\n Something Went Wrong While Signing the PI [ %s ] in Blitz Server [ %s ] . \n Kindly Please have a Look. \n\n Thanks " "$ID" "${PI}" "$SAVBU" | mailx -s "RE: Failed to Sign the Image" "$ID"@cisco.com
@@ -244,12 +245,7 @@ case $CTRL_ARG in
     "CIMC" | "cimc" ) 
                     CIMC "$C1" "$C2"
                     ;;
-    "MAN" | "man" | "--help" | "-h" ) 
-                    MAN 
-                    ;;
-
-     *) MAN 
-        ;;
+                    
 esac
 
 #TBD

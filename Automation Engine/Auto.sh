@@ -7,7 +7,7 @@
 #           File : Auto.sh                                                                               #
 #       Engineer : rameseka                                                                              #
 #          Usage : /nws/rameseka/scripts/Auto.sh <Flags>                                                 #
-# Supported Flags:  [ techsupport | | sign | tail <AG Name>(Optional) | stop | replace | revert | cimc ] #
+# Supported Flags:  [ techsupport | sign | tail <AG Name>(Optional) | stop | replace | revert | cimc ]   #
 #                                                                                                        #
 ##########################################################################################################
 
@@ -27,13 +27,23 @@ EXIT_FAIL="exit 1"
 function Welcome()
 {
     ${CLEAR}
-    printf "\n-----------------------------------------------------------------------------------------\n"
+    printf "\n---------------------------------------------------------------------------------------------------------------------------------------------\n"
     printf "\n\t\t\t\tUCSM Automation Engine V1.0\n"
-    printf "\n-----------------------------------------------------------------------------------------\n"
+    printf "\n---------------------------------------------------------------------------------------------------------------------------------------------\n"
 }
 
 function MAN(){
-    :
+    ${CLEAR}
+    printf  "\n************************************* USAGE ***************************************************************\n"
+    printf  "\nDownload & Extract a TechSupport ---- [ techsupport | TS | ts ]"
+    printf  "\n\nSigning the Image -- [ sign | SIGN ] [ UCSM Image Name ] [ Description about Image ](Optional)"
+    printf  "\n\nReplace the Library So File -- [ replace | COPY | copy ]"
+    printf  "\n\nReverting the Library So File -- [ revert | REVERT  ]"
+    printf  "\n\nTail the AG Logs -- [ tail | START | start ] [ AG Specific Name | all ] (Optional)"
+    printf  "\n\nStatus of the Tailing Logs -- [ status | STATUS ]"
+    printf  "\n\nStop Tailing the Log -- [ stop | STOP ]"
+    printf  "\n\nGenerate challenge String -- [ CIMC | cimc ] [C1 String] [ C2 String ]"
+    printf  "\n\n*********************************** USAGE *****************************************************************\n"
 }
 
 function ERROR(){
@@ -69,9 +79,12 @@ fi
 #TBD : Get the Pass from Either CLI or Env Variable 
 if [ -z "${CEC}" ] && [ -z "${UCSIP}" ]
 then
-    if [[ $CTRL_ARG != "MAN" && $CTRL_ARG != "man" ]] && [[ $CTRL_ARG != "--help" && $CTRL_ARG != "--h" ]] && [[ $CTRL_ARG != "CIMC" && $CTRL_ARG != "cimc" ]] && [[ $CTRL_ARG != "SIGN" && $CTRL_ARG != "sign" ]]
+    if [[ $CTRL_ARG != "MAN" && $CTRL_ARG != "man" ]] && [[ $CTRL_ARG != "--help" && $CTRL_ARG != "--h" ]] && [[ $CTRL_ARG != "SIGN" && $CTRL_ARG != "sign" ]]
     then 
-        read -rep $'\n\nPlease Enter the Setup IP : ' IP
+        if [[ $CTRL_ARG != "CIMC" && $CTRL_ARG != "cimc" ]] 
+        then
+            read -rep $'\n\nPlease Enter the Setup IP : ' IP
+        fi
         read -serp $'\nPlease Enter the CEC Password : ' PASS
     fi
 else
@@ -288,9 +301,7 @@ function CIMC()
     PROCESSING
     C1=$1
     C2=$2
-    ID=""
-    PASS=''
-    if ! sshpass -p "${PASS}" ssh -t "${ID}"@${BLITZ6} "${SCRIPT} ${CTRL_ARG} ${C1} ${C2}" 2>/dev/null
+    if ! SSH_CONNECT "${CTRL_ARG}" "${C1}" "${C2}" 2>/dev/null
     then
         ERROR
     fi
