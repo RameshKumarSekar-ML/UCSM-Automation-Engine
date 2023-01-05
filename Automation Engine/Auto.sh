@@ -79,7 +79,7 @@ fi
 #TBD : Get the Pass from Either CLI or Env Variable 
 if [ -z "${CEC}" ] && [ -z "${UCSIP}" ]
 then
-    if [[ $CTRL_ARG != "MAN" && $CTRL_ARG != "man" ]] && [[ $CTRL_ARG != "--help" && $CTRL_ARG != "--h" ]] && [[ $CTRL_ARG != "SIGN" && $CTRL_ARG != "sign" ]]
+    if [[ $CTRL_ARG != "MAN" && $CTRL_ARG != "man" ]] && [[ $CTRL_ARG != "--help" && $CTRL_ARG != "--h" ]] && [[ $CTRL_ARG != "SIGN" && $CTRL_ARG != "sign" && $CTRL_ARG != "Sign" ]]
     then 
         if [[ $CTRL_ARG != "CIMC" && $CTRL_ARG != "cimc" ]] 
         then
@@ -268,7 +268,7 @@ function SIGN()
         printf "\n\t -------------------------------------------------------------------------\n"
         printf "[ Instruction's] : \n\n\tPlease Get in to sam/src/.debug/images/ Directory and Execute the Script.]\n"
         printf "\n[ PASSWORDLESS SSH ] : \n\n\t 1.ssh-keygen -t rsa [Just Enter for All Propmt's ]  \n\t 2.ssh-copy-id %s@savbu-blitz6.cisco.com \n\n\t Hurrah !! You're Done :) \n" "$ID"
-        printf "\n[ Usage ] : \n\n\tSign the Image [ bash /nws/rameseka/Sign.sh [IMAGE NAME] ]\n"
+        printf "\n[ Usage ] : \n\n\tSign the Image [ bash /nws/rameseka/scripts/Auto.sh sign [IMAGE NAME] ]\n"
         printf "\n\t -------------------------------------------------------------------------\n"
         ${EXIT_FAIL}
     }
@@ -322,7 +322,7 @@ case $CTRL_ARG in
     "REVERT" | "revert" | "rollback" | "ROLLBACK" ) 
                     REVERT 
                     ;;
-    "TS" | "ts" | "techsupport" ) 
+    "TS" | "ts" | "techsupport" | "Techsupport" ) 
                     TS 
                     ;;
     "START" | "start" | "tail" ) 
@@ -334,7 +334,7 @@ case $CTRL_ARG in
     "STATUS" | "status" ) 
                     STATUS 
                     ;;
-    "SIGN" | "sign" )
+    "SIGN" | "sign" | "Sign" )
                     SIGN "$@"
                     ;;
     "CIMC" | "cimc" ) 

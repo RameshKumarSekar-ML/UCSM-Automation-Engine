@@ -265,7 +265,7 @@ elif [[ "$CTRL_ARG" == "REVERT" || "$CTRL_ARG" == "revert" || "$CTRL_ARG" == "RO
 then
     REVERT 
 
-elif [[ "$CTRL_ARG" == "TS" || "$CTRL_ARG" == "ts" || "$CTRL_ARG" == "techsupport" ]]
+elif [[ "$CTRL_ARG" == "TS" || "$CTRL_ARG" == "ts" || "$CTRL_ARG" == "techsupport" || "$CTRL_ARG" == "Techsupport" ]]
 then
     ID=$2
     BUID_MACHINE=$3

@@ -227,7 +227,7 @@ case $CTRL_ARG in
     "REVERT" | "revert" | "rollback" | "ROLLBACK" ) 
                     REVERT 
                     ;;
-    "TS" | "ts" | "techsupport" )  
+    "TS" | "ts" | "techsupport" | "Techsupport" )  
                     TS 
                     ;;
    "START" | "start" | "tail" ) 
@@ -239,13 +239,13 @@ case $CTRL_ARG in
     "STATUS" | "status" ) 
                     STATUS 
                     ;;
-    "SIGN" | "sign" )
+    "SIGN" | "sign" | "Sign" )
                     SIGN "$@"
                     ;;
     "CIMC" | "cimc" ) 
                     CIMC "$C1" "$C2"
                     ;;
-                    
+
 esac
 
 #TBD
